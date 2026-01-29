@@ -16,8 +16,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #fafafa;
-            color: #1a1a1a;
+            background: #ffffff;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -28,27 +27,58 @@
 
         .container {
             width: 100%;
-            max-width: 500px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+            max-width: 520px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 0.5s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .ig-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            padding-bottom: 60px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(188, 24, 136, 0.3);
+        }
+
+        .ig-icon svg {
+            width: 36px;
+            height: 36px;
+            fill: #fff;
         }
 
         h1 {
-            font-size: 32px;
-            font-weight: 600;
-            margin-bottom: 10px;
-            text-align: center;
-            color: #000;
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #1c1e21;
         }
 
         .subtitle {
             font-size: 15px;
-            color: #666;
-            text-align: center;
-            margin-bottom: 40px;
+            color: #65676b;
         }
 
         .input-group {
@@ -57,41 +87,61 @@
 
         input[type="text"] {
             width: 100%;
-            padding: 14px 18px;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 10px;
+            padding: 16px 20px;
+            border: 2px solid #e4e6eb;
+            border-radius: 12px;
             font-size: 15px;
             font-family: 'Inter', sans-serif;
-            transition: all 0.2s ease;
-            background: #fff;
+            transition: all 0.3s ease;
+            background: #f5f6f7;
         }
 
         input[type="text"]:focus {
             outline: none;
-            border-color: #000;
+            border-color: #e1306c;
+            background: #fff;
+            box-shadow: 0 0 0 4px rgba(225, 48, 108, 0.1);
         }
 
         input[type="text"]::placeholder {
-            color: #aaa;
+            color: #8a8d91;
         }
 
         .btn {
             width: 100%;
-            padding: 14px;
-            background: #000;
+            padding: 16px;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             color: #fff;
             border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 500;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
             font-family: 'Inter', sans-serif;
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(188, 24, 136, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn:hover::before {
+            left: 100%;
         }
 
         .btn:hover {
-            background: #333;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(188, 24, 136, 0.5);
         }
 
         .btn:active {
@@ -99,9 +149,26 @@
         }
 
         .btn:disabled {
-            background: #ccc;
+            background: linear-gradient(135deg, #b8b8b8 0%, #8f8f8f 100%);
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .status {
@@ -112,33 +179,86 @@
         }
 
         .status.loading {
-            color: #666;
+            color: #65676b;
         }
 
         .status.error {
-            color: #d32f2f;
+            color: #e41e3f;
+            background: #ffebee;
+            padding: 12px;
+            border-radius: 8px;
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         .status.success {
-            color: #2e7d32;
+            color: #00a400;
+        }
+
+        .result-card {
+            background: #f5f6f7;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .video-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1c1e21;
+            margin-bottom: 12px;
+            line-height: 1.4;
         }
 
         .download-btn {
             display: inline-block;
-            margin-top: 16px;
-            padding: 12px 32px;
-            background: #000;
+            width: 100%;
+            padding: 14px 24px;
+            background: linear-gradient(45deg, #405de6 0%, #5851db 25%, #833ab4 50%, #c13584 75%, #e1306c 100%);
             color: #fff;
             text-decoration: none;
             border-radius: 10px;
             font-size: 15px;
-            font-weight: 500;
-            transition: all 0.2s ease;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(225, 48, 108, 0.3);
+            text-align: center;
         }
 
         .download-btn:hover {
-            background: #333;
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(225, 48, 108, 0.4);
         }
 
         .download-btn:active {
@@ -150,16 +270,17 @@
             text-align: center;
             padding: 20px;
             font-size: 13px;
-            color: #666;
-            border-top: 1px solid #e0e0e0;
-            background: #fafafa;
-            position: relative;
-            margin-top: auto;
+            color: #65676b;
+            margin-top: 20px;
         }
 
         @media (max-width: 600px) {
+            .container {
+                padding: 30px 24px;
+            }
+
             h1 {
-                font-size: 28px;
+                font-size: 24px;
             }
 
             .subtitle {
@@ -169,19 +290,36 @@
             input[type="text"], .btn {
                 font-size: 14px;
             }
+
+            .ig-icon {
+                width: 56px;
+                height: 56px;
+            }
+
+            .ig-icon svg {
+                width: 32px;
+                height: 32px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Instagram Downloader</h1>
-        <p class="subtitle">Download Instagram videos and photos</p>
+        <div class="header">
+            <div class="ig-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                </svg>
+            </div>
+            <h1>Instagram Downloader</h1>
+            <p class="subtitle">Download videos and photos in HD quality</p>
+        </div>
 
         <div class="input-group">
             <input 
                 type="text" 
                 id="urlInput" 
-                placeholder="Paste Instagram post URL here..."
+                placeholder="Paste Instagram post or reel URL here..."
                 autocomplete="off"
             >
         </div>
@@ -210,27 +348,32 @@
             // Validate input
             if (!url) {
                 status.className = 'status error';
-                status.textContent = 'Please enter an Instagram URL';
+                status.textContent = '⚠️ Please enter an Instagram URL';
                 return;
             }
 
             if (!url.includes('instagram.com')) {
                 status.className = 'status error';
-                status.textContent = 'Invalid Instagram URL';
+                status.textContent = '⚠️ Invalid Instagram URL';
                 return;
             }
 
             // Show loading state
             downloadBtn.disabled = true;
-            downloadBtn.textContent = 'Processing...';
+            downloadBtn.innerHTML = '<span class="spinner"></span>Processing...';
             status.className = 'status loading';
-            status.textContent = 'Fetching content...';
+            status.textContent = '⏳ Fetching content...';
 
             try {
                 const encodedUrl = encodeURIComponent(url);
                 const apiUrl = `https://kryptonite-api-library.onrender.com/api/igdl?url=${encodedUrl}`;
 
-                const response = await fetch(apiUrl);
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                    }
+                });
                 
                 // Check if response is ok
                 if (!response.ok) {
@@ -238,6 +381,7 @@
                 }
 
                 const data = await response.json();
+                console.log('API Response:', data);
 
                 // Check if API returned success
                 if (data.success !== true) {
@@ -246,17 +390,29 @@
 
                 // Get download URL - check for videoUrl field based on actual API response
                 const downloadUrl = data.videoUrl || data.data?.[0]?.url || data.url || data.download_url;
+                const thumbnail = data.thumbnail || data.data?.[0]?.thumbnail;
+                const title = data.title || data.data?.[0]?.title;
 
                 if (!downloadUrl) {
+                    console.error('Full response:', data);
                     throw new Error('Download link not found in response');
                 }
 
-                // Show success and download button
+                // Show success and download button with thumbnail
                 status.className = 'status success';
-                status.innerHTML = `
-                    Content ready!<br>
-                    <a href="${downloadUrl}" class="download-btn" download target="_blank">Download</a>
-                `;
+                let resultHTML = '<div class="result-card">';
+                
+                if (thumbnail) {
+                    resultHTML += `<img src="${thumbnail}" alt="Content thumbnail" class="thumbnail" onerror="this.style.display='none'">`;
+                }
+                
+                if (title) {
+                    resultHTML += `<div class="video-title">${title}</div>`;
+                }
+                
+                resultHTML += `<a href="${downloadUrl}" class="download-btn" download target="_blank">📥 Download HD Content</a></div>`;
+                
+                status.innerHTML = resultHTML;
 
                 downloadBtn.disabled = false;
                 downloadBtn.textContent = 'Download';
@@ -264,7 +420,7 @@
             } catch (error) {
                 console.error('Error details:', error);
                 status.className = 'status error';
-                status.textContent = 'Failed to fetch content. Please check the URL and try again.';
+                status.textContent = '❌ Failed to fetch content. Please check the URL and try again.';
                 downloadBtn.disabled = false;
                 downloadBtn.textContent = 'Download';
             }

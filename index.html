@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Downloader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-bottom: 60px;
+        }
+
+        h1 {
+            font-size: 32px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            text-align: center;
+            color: #000;
+        }
+
+        .subtitle {
+            font-size: 15px;
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            background: #fff;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: #000;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 14px;
+            min-height: 20px;
+        }
+
+        .status.loading {
+            color: #666;
+        }
+
+        .status.error {
+            color: #d32f2f;
+        }
+
+        .status.success {
+            color: #2e7d32;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 16px;
+            padding: 12px 32px;
+            background: #000;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .download-btn:hover {
+            background: #333;
+            transform: translateY(-1px);
+        }
+
+        .download-btn:active {
+            transform: translateY(0);
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #666;
+            border-top: 1px solid #e0e0e0;
+            background: #fafafa;
+            position: relative;
+            margin-top: auto;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 28px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+            }
+
+            input[type="text"], .btn {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Instagram Downloader</h1>
+        <p class="subtitle">Download Instagram videos and photos</p>
+
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="urlInput" 
+                placeholder="Paste Instagram post URL here..."
+                autocomplete="off"
+            >
+        </div>
+
+        <button class="btn" id="downloadBtn">Download</button>
+
+        <div class="status" id="status"></div>
+    </div>
+
+    <footer>
+        © 2026 | Siegfried Samá
+    </footer>
+
+    <script>
+        const urlInput = document.getElementById('urlInput');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const status = document.getElementById('status');
+
+        downloadBtn.addEventListener('click', async () => {
+            const url = urlInput.value.trim();
+
+            // Clear previous status
+            status.className = 'status';
+            status.innerHTML = '';
+
+            // Validate input
+            if (!url) {
+                status.className = 'status error';
+                status.textContent = 'Please enter an Instagram URL';
+                return;
+            }
+
+            if (!url.includes('instagram.com')) {
+                status.className = 'status error';
+                status.textContent = 'Invalid Instagram URL';
+                return;
+            }
+
+            // Show loading state
+            downloadBtn.disabled = true;
+            downloadBtn.textContent = 'Processing...';
+            status.className = 'status loading';
+            status.textContent = 'Fetching content...';
+
+            try {
+                const encodedUrl = encodeURIComponent(url);
+                const apiUrl = `https://kryptonite-api-library.onrender.com/api/igdl?url=${encodedUrl}`;
+
+                const response = await fetch(apiUrl);
+                
+                // Check if response is ok
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+
+                // Check if API returned success
+                if (data.success !== true) {
+                    throw new Error('API returned unsuccessful response');
+                }
+
+                // Get download URL - check for videoUrl field based on actual API response
+                const downloadUrl = data.videoUrl || data.data?.[0]?.url || data.url || data.download_url;
+
+                if (!downloadUrl) {
+                    throw new Error('Download link not found in response');
+                }
+
+                // Show success and download button
+                status.className = 'status success';
+                status.innerHTML = `
+                    Content ready!<br>
+                    <a href="${downloadUrl}" class="download-btn" download target="_blank">Download</a>
+                `;
+
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download';
+
+            } catch (error) {
+                console.error('Error details:', error);
+                status.className = 'status error';
+                status.textContent = 'Failed to fetch content. Please check the URL and try again.';
+                downloadBtn.disabled = false;
+                downloadBtn.textContent = 'Download';
+            }
+        });
+
+        // Allow Enter key to trigger download
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                downloadBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>
